@@ -411,9 +411,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (separateSections.length !== 0 && separateContainers.length !== 0) {
     //initialize sliders
     separateSections.forEach((separate) => {
-      const slider = separate.querySelector(
-        '.separate .separate-slider.swiper'
-      );
+      const slider = separate.querySelector('.separate-slider.swiper');
       if (!slider) {
         return;
       }
@@ -434,20 +432,18 @@ document.addEventListener('DOMContentLoaded', function () {
       const swiperInit = new Swiper(slider, {
         effect: 'fade',
         autoHeight: true,
-        allowTouchMove: false,
+        allowTouchMove: true,
         pagination: {
           el: paginationContainer,
           clickable: true,
           renderBullet: function (index, className) {
             return `
                 <button class="${className} separate-bullet">
-                  <span>
                     ${
                       bulletContentArray[index]
                         ? bulletContentArray[index].innerHTML
                         : 'Рубрика'
                     }
-                  </span>
                 </button>
               `;
           },

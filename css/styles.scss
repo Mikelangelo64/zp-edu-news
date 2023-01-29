@@ -1158,6 +1158,7 @@ section {
 //DEPARTMENT-LIST---------------------------------------------------------------------
 .department {
     overflow: hidden;
+    transform: translate3d(0, 0, 0);
     //padding: 0 var(--wrap);
 
     @include viewport-desktop {
@@ -1264,7 +1265,8 @@ section {
     //width: 100%;
     width: max-content;
     display: flex;
-    //overflow: hidden;
+    overflow: hidden;
+    transform: translate3d(0, 0, 0);
     //transform: translateX(-50%);
 
     @include viewport-phone {
@@ -1306,12 +1308,15 @@ section {
         }
     }
 
+    //.department-list__inner 
     &__inner {
         //min-width: 100%;
         display: flex;
         //justify-content: space-around;
         width: max-content;
         will-change: transform;
+        flex-shrink: 0;
+        -webkit-flex-shrink: 0;
 
         @include viewport-phone {
             // @media (max-width: 550px) {
@@ -1362,11 +1367,16 @@ section {
     //.department-list__item {
     &__item {
         flex-shrink: 0;
+        -webkit-flex-shrink: 0;
+        //display: inline-flex;
     }
     
     //.department-list__link {
     &__link {
-
+        //display: inline-block;
+        //width: max-content;
+        // flex-shrink: 0;
+        // -webkit-flex: 0;
         transition: color 0.3s ease;
 
         font-weight: 400;
@@ -1547,12 +1557,30 @@ section {
                 padding: 0;
             }
         }
+
+        @at-root .news.news-events & {
+            padding: 0 var(--wrap);
+
+            @include viewport-phone {
+                padding: 0;
+            }
+        }
     }
     
     //.news__wrapper 
     &__wrapper {
+        @at-root .news.news-events & {
+            @include viewport-tablet-min {
+                padding: px-to-rem(76) var(--wrap-colored) 0;
+            }
+
+            @include viewport-phone {
+                padding: px-to-rem(24) var(--wrap-colored) 0;
+            }
+        }
+
         @at-root .news[data-with-separate] & {
-            background-color: var(--color-green);
+            background-color: var(--color-green-100);
             transition: background 0.3s ease;
     
             @include viewport-tablet-min {
@@ -1907,7 +1935,8 @@ section {
     &-header {
         width: calc(100% + 2 * var(--wrap-colored));
         margin-left: calc(-1 * var(--wrap-colored));
-        overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: visible;
 
         //.separate-header__wrapper 
         &__wrapper {
@@ -1928,7 +1957,8 @@ section {
             @include non-mobile-device {
                 width: 100%;
                 flex-wrap: wrap;
-                overflow: hidden;
+                overflow-x: hidden;
+                overflow-y: visible;
             }
     
             @include viewport-desktop {
@@ -1979,49 +2009,50 @@ section {
             display: block !important;
         }
 
-        span {
-            position: relative;
-            width: max-content;
-            display: inline-block;
+        position: relative;
+        width: max-content;
+        display: inline-block;
+        pointer-events: all;
+
+        @include viewport-tablet-min {
+            padding-bottom: px-to-rem(13) !important;
+        }
+
+        @include viewport-phone {
+            padding-bottom: px-to-rem(5) !important;
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: var(--color-white);
+
+            transition: transform 0.3s ease;
 
             @include viewport-tablet-min {
-                padding-bottom: px-to-rem(13);
+                height: 3px;
+                transform: translateY(px-to-rem(-3)) scaleX(0);
             }
 
             @include viewport-phone {
-                padding-bottom: px-to-rem(5);
+                height: 1px;
+                transform: translateY(px-to-rem(-1)) scaleX(0);
             }
 
-            &::before {
-                content: '';
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background-color: var(--color-white);
-    
-                transition: transform 0.3s ease;
-
+            @at-root .separate-bullet.swiper-pagination-bullet-active::before {
                 @include viewport-tablet-min {
-                    height: 3px;
-                    transform: translateY(px-to-rem(-3)) scaleX(0);
+                    transform: translateY(px-to-rem(-3)) scaleX(1);
                 }
 
                 @include viewport-phone {
-                    height: 1px;
-                    transform: translateY(px-to-rem(-1)) scaleX(0);
-                }
-    
-                @at-root .separate-bullet.swiper-pagination-bullet-active span::before {
-                    @include viewport-tablet-min {
-                        transform: translateY(px-to-rem(-3)) scaleX(1);
-                    }
-    
-                    @include viewport-phone {
-                        transform: translateY(px-to-rem(-1)) scaleX(1);
-                    }                
-                }
+                    transform: translateY(px-to-rem(-1)) scaleX(1);
+                }                
             }
+        }
+        span {
         }
 
         @at-root .swiper-pagination-horizontal.swiper-pagination-bullets & {
@@ -2086,6 +2117,42 @@ section {
         }
     }
 
+    & > *:first-child {
+        @include viewport-tablet-min {
+            width: 40.09%;
+            flex-shrink: 0;
+        }
+
+        @at-root .news.news-events .news-feed > *:first-child {
+            @include viewport-tablet-min {
+                width: 48.6486%;
+                flex-shrink: 0;
+            }
+        }
+    }
+
+    & > *:last-child {
+        @include viewport-tablet-min {
+            width: 48.6486%;
+            flex-shrink: 0;
+        }
+
+        @at-root .news.news-events .news-feed > *:last-child {
+            @include viewport-tablet-min {
+                width: 40.09%;
+                flex-shrink: 0;
+            }
+        }
+    }
+
+    @at-root .news.news-events & {
+        color: var(--color-black);
+
+        @include viewport-tablet-min {
+            flex-direction: row-reverse;
+        }
+    }
+
     > * + * {
         @include viewport-tablet-min {
             margin-left: px-to-rem(50);
@@ -2093,6 +2160,17 @@ section {
 
         @include viewport-phone {
             margin-top: 2.25em;
+        }
+
+        @at-root .news.news-events .news-feed > * + * {
+            @include viewport-tablet-min {
+                margin-left: unset;
+                margin-right: px-to-rem(50);
+            }
+
+            @include viewport-phone {
+                margin-top: 1.25em;
+            }
         }
     }
 
@@ -2103,13 +2181,12 @@ section {
 
     //.news-feed__list 
     &__list {
-        @include viewport-tablet-min {
-            width: 48.6486%;
-            flex-shrink: 0;
-        }
-
         > * + * {
             margin-top: 2.25em;
+
+            @at-root .news.news-events .news-feed__list > * + * {
+                margin-top: 1.25em;
+            }
         }
     }
     
@@ -2128,9 +2205,20 @@ section {
             margin-top: 1.25em;
         }
 
+        @at-root .news.news-events & {
+            border-color: var(--color-grey-050);
+            padding-top: 0.937em;
+        }
+
+
         @at-root .news-feed__big & {
             border-top: unset;
             padding-top: unset;
+        }
+
+        
+        @at-root .news.news-events .news-feed__big & {
+            padding-top: 0;
         }
     }
     
@@ -2168,10 +2256,20 @@ section {
             @include non-mobile-device {
                 color: var(--color-highlight);
             }
-        } 
+        }
 
         @at-root .news-feed__item:focus-visible & {
             color: var(--color-highlight);
+        } 
+
+        @at-root .news.news-events .news-feed__item:focus-visible & {
+            color: var(--color-blue-100);
+        } 
+
+        @at-root .news.news-events .news-feed__item:hover & {
+            @include non-mobile-device {
+                color: var(--color-blue-100);
+            }
         } 
     }
     
@@ -2200,5 +2298,9 @@ section {
     //.news-feed__description 
     &__description {
         opacity: 0.5;
+
+        @at-root .news.news-events & {
+            margin-top: 0.625em;
+        }
     }
 }
